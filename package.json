@@ -1,0 +1,31 @@
+{
+  "name": "myfirstmodule",
+  "version": "0.0.1",
+  "description": "my first node module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuksik/myFirstNodeModule.git"
+  },
+  "keywords": [
+    "node",
+    "imagemagic"
+  ],
+  "author": "kuksik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kuksik/myFirstNodeModule/issues"
+  },
+  "homepage": "https://github.com/kuksik/myFirstNodeModule#readme",
+  "dependencies": {
+    "file-type": "^5.2.0",
+    "gm": "^1.23.0",
+    "request": "^2.81.0"
+  },
+  "peerDependencies": {
+    "mongoose": "^4.11.5"
+  }
+}
