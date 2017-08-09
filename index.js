@@ -5,10 +5,13 @@ const fs = require('fs');
 const gm = require('gm');
 const fileType = require('file-type');
 const request = require('request').defaults({ encoding: null });
-const mongoose = require('mongoose');
-const Image = require('./schema.js');
+const DB = require('./schema.js')();
 
-const Mfm = function Buz() {
+
+function Mfm() {}
+
+Mfm.prototype.connectToDB = function connectToDB(mongoose) {
+  this.Image = DB.createSchema(mongoose);
 };
 
 Mfm.prototype.setRootDir = function setRootDir(dirName) {
@@ -44,7 +47,9 @@ Mfm.prototype.createImageDir = function createImageDir(imageName) {
 
 Mfm.prototype.saveImage = async function saveImage({ path: pathToDir, cropParams, ext, size }) {
   try {
+    const { Image } = this;
     const newImage = new Image({ path: pathToDir, cropParams, ext, size });
+
     return await newImage.save();
   } catch (e) {
     throw e;
@@ -53,6 +58,8 @@ Mfm.prototype.saveImage = async function saveImage({ path: pathToDir, cropParams
 
 Mfm.prototype.getAllImagesInfo = async function getAllImagesInfo() {
   try {
+    const { Image } = this;
+
     return await Image.find();
   } catch (e) {
     throw e;
@@ -65,6 +72,8 @@ Mfm.prototype.getImageInfo = async function getImageInfo(imageId) {
   }
 
   try {
+    const { Image } = this;
+
     return await Image.findOne({ _id: imageId }) || {};
   } catch (e) {
     throw e;
@@ -209,6 +218,7 @@ Mfm.prototype.cropImage = function cropImage(imageId) {
       Promise.all(promises)
         .then(async () => {
           try {
+            const { Image } = this;
             const { ok } = await Image.update({ _id: imageId }, { $set: { cropped: true } });
             resolve(!ok);
           } catch (e) {
